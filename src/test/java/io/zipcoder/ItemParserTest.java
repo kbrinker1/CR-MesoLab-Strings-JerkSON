@@ -85,11 +85,6 @@ public class ItemParserTest {
 
     }
 
-    @Test
-    public void parseStringIntoItemTestMultiple() throws ItemParseException{
-        Item expected = new Item("milk", 3.23, "food","1/11/2016");
-        Item actual = itemParser.parseStringIntoItem(rawMultipleItems);
-        assertEquals(expected.toString(), actual.toString());
-    }
+
 
 }

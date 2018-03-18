@@ -107,4 +107,92 @@ public class ItemParser {
         }
         return completeList;
     }
-}
+
+    public String printFinalList() throws Exception {
+        completeList = getCompleteList();
+        StringBuilder listBuilder = new StringBuilder();
+
+        for(Map.Entry<String,ArrayList<Item>>groceryItems:completeList.entrySet()){
+            listBuilder.append("\nname: ");
+            listBuilder.append(String.format("%8s",captitalizeFirstLetter(groceryItems.getKey())));
+            listBuilder.append("\t\t\t\tseen: "+getOccurencesOfItems(groceryItems.getValue())+" times\n");
+            listBuilder.append("==============="+"\t\t\t\t===============\n");
+            String priceReport = generatePriceReport(groceryItems);
+            listBuilder.append(priceReport);
+            listBuilder.append("---------------"+"\t\t\t\t---------------\n");
+        }
+
+        listBuilder.append("\nErrors\t\t\t\t\t\tseen: "+exceptionCounter+" times\n");
+
+        return listBuilder.toString();
+    }
+
+    public int getOccurencesOfItems(ArrayList list) {
+        return list.size();
+    }
+
+    public int getOccurencesOfPrices(ArrayList<Item> list, Double price) {
+        int priceCounter = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getPrice().equals(price) ) {
+                priceCounter++;
+            }
+        }
+        return priceCounter;
+    }
+
+    public String generatePriceReport(Map.Entry<String, ArrayList<Item>> input) {
+        String priceReport = "";
+        ArrayList<Double> nonDupPrices = getUniquePrices(input);
+        for(int i=0;i<nonDupPrices.size();i++){
+            priceReport+="Price";
+            priceReport+=(String.format("%10s",nonDupPrices.get(i)));
+            priceReport+=("\t\t\t\tseen: "+ getOccurencesOfPrices(input.getValue(),nonDupPrices.get(i))+
+                    " times\n");
+        }
+        return priceReport;
+
+    }
+
+    public ArrayList<Double> getUniquePrices(Map.Entry<String, ArrayList<Item>> input) {
+        ArrayList<Double> uniquePrices = new ArrayList<>();
+        for (int i=0;i<input.getValue().size();i++) {
+            if (!uniquePrices.contains(input.getValue().get(i).getPrice())) {
+                uniquePrices.add(input.getValue().get(i).getPrice());
+            }
+        }
+        return uniquePrices;
+    }
+
+    public String captitalizeFirstLetter(String input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
+    }
+
+
+//    public int counts() throws Exception {
+//        String input = getCompleteList().toString();
+//        String[] inputs = input.split("([\\W\\s+])");
+//        Map<String, Integer> listCounter = new HashMap<String, Integer>();
+//        for (String searchWord : inputs) {
+//            if (listCounter.containsKey(searchWord)) {
+//                listCounter.put(searchWord, listCounter.get(searchWord) + 1);
+//            } else {
+//                listCounter.put(searchWord, 1);
+//            }
+//        }
+//        return listCounter.get();
+//    }
+//    public String printList() throws Exception{
+//        ItemParser itemParser = new ItemParser();
+//        StringBuilder finalList = new StringBuilder();
+//        HashMap<String, ArrayList<Item>> testMap = itemParser.getCompleteList();
+//        for (String key : testMap.keySet()) {
+//            for (int i = 0; i < testMap.get(key).size(); i++) {
+//                finalList.append(("name:      "+ key + " seen:"+testMap.get(key).size()+"\n" + testMap.get(key).get(i).getPrice()));
+//            }
+//        }
+//        return finalList.toString();
+//    }
+

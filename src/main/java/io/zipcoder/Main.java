@@ -1,5 +1,6 @@
 package io.zipcoder;
 
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import org.apache.commons.io.IOUtils;
 
 import java.util.*;
@@ -21,15 +22,27 @@ public class Main {
 
         System.out.println(output);
         // TODO: parse the data in output into items, and display to console.
-
-
         ItemParser itemParser = new ItemParser();
-        HashMap<String, ArrayList<Item>> testMap = itemParser.getCompleteList();
-        for (String key : testMap.keySet()) {
-            for (int i = 0; i < testMap.get(key).size(); i++) {
-                System.out.println(key + " " + testMap.get(key).get(i).getPrice());
-            }
+        Main main = new Main();
+
+        ArrayList<String> itemList = itemParser.parseRawDataIntoStringArray(output);
+
+        System.out.println(itemParser.printFinalList());
         }
-        }
+
+
     }
 
+//    String s = String.format("%-13s%s", "name:", "bread");
+//        System.out.println(s);
+//
+//                ItemParser itemParser = new ItemParser();
+//                HashMap<String, ArrayList<Item>> testMap = itemParser.getCompleteList();
+//        for (String key : testMap.keySet()) {
+//        for (int i = 0; i < testMap.get(key).size(); i++) {
+//        System.out.println("name:    "+key + "                 " + "seen:    " + testMap.get(key).size() + "\n" +
+//        "=================              =================\n"
+//        +"price:   "+ testMap.get(key).get(i).getPrice() +"                 "+ "seen:    "+ testMap.get(key).size()+"\n"+
+//        "----------------              ---------------\n");
+//        }
+//        }
