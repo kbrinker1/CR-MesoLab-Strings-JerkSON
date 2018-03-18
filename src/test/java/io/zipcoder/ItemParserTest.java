@@ -18,7 +18,7 @@ public class ItemParserTest {
 
     private String rawSingleItemIrregularSeperatorSample = "naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
 
-    private String rawBrokenSingleItem =    "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##";
+    private String rawBrokenSingleItem =    "naMe:;price:3.23;type:Food;expiration:1/25/2016##";
 
     private String rawMultipleItems = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##"
                                       +"naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##"
@@ -84,4 +84,12 @@ public class ItemParserTest {
         System.out.println(itemSearch);
 
     }
+
+    @Test
+    public void parseStringIntoItemTestMultiple() throws ItemParseException{
+        Item expected = new Item("milk", 3.23, "food","1/11/2016");
+        Item actual = itemParser.parseStringIntoItem(rawMultipleItems);
+        assertEquals(expected.toString(), actual.toString());
+    }
+
 }
